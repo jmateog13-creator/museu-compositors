@@ -377,7 +377,7 @@ const COMPOSITORS = {
     "nom": "Vicent Martín i Soler",
     "epoca": "Classicisme",
     "dates": "1754 – 1806",
-    "lloc": "València · Viena",
+    "lloc": "València · Viena · Sant Petersburg",
     "pais": [
       "es",
       "val"
@@ -471,7 +471,7 @@ const COMPOSITORS = {
     "nom": "Francesc Tàrrega",
     "epoca": "Romanticisme",
     "dates": "1852 – 1909",
-    "lloc": "Vila-real · Granada",
+    "lloc": "Vila-real · Barcelona",
     "pais": [
       "es",
       "val"

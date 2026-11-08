@@ -50,7 +50,6 @@ p { margin:0; }
 .altres button[aria-pressed="true"] { background:var(--hl); }
 .pista { margin-bottom:.3em; }
 .pista b { font:700 1.05em "Archivo Narrow", sans-serif; text-transform:uppercase; background:linear-gradient(transparent 55%, var(--hl) 0); }
-.aviat { font-family:var(--lletra), serif; font-weight:700; font-size:2.6em; line-height:1.05; margin-bottom:.1em; }
 .sabies { display:flex; align-items:flex-end; gap:.4em; }
 /* 9 trossos: la cua i les cantonades no es deformen mai, encara que el text sigui llarg */
 .bafarada { flex:1; min-width:0; padding:1.1em 1.4em 2.5em; border:0 solid transparent; border-image:url(art/postit-9.png) 100 190 190 100 fill / 1.6em 3em 3em 1.6em; filter:drop-shadow(0 3px 3px rgba(50,30,5,.25)); }
@@ -83,7 +82,6 @@ p { margin:0; }
   .info { padding:.5dvh 10px .2dvh; gap:.45dvh; background:none; }
   .tag { margin-bottom:.15em; font-size:1.05em; }
   .titol { font-size:1.35em; margin-bottom:.15em; }
-  .aviat { font-size:2em; }
   .play { width:5.4dvh; border-width:2px; box-shadow:0 2px 0 var(--tinta); }
   .altres { margin-top:.25em; }
   .altres button { font-size:.85em; padding:.15em .4em; }

@@ -53,7 +53,7 @@ $("curiositat").textContent = c.curiositat;
 $("pistes").innerHTML = c.pistes.map(x => `<p class="pista"><b>${x.titol}:</b> ${x.text}</p>`).join("");
 
 if (!c.obres.length) {
-  $("obra").innerHTML = `<h2 class="tag">L'obra</h2><p class="aviat">Aviat!</p><p>Encara no hem trobat cap gravació lliure per escoltar aquí.</p>`;
+  $("obra").innerHTML = `<h2 class="tag">L'obra</h2><p>Encara no hem trobat cap gravació lliure per escoltar aquí. Busca-la amb el teu professor!</p>`;
 } else {
   $("obra").innerHTML = `<h2 class="tag">L'obra</h2><p class="titol" id="titol"></p>
     <div class="reproductor"><button class="play" id="play" aria-label="Escolta"><svg viewBox="0 0 24 24"><path id="icona" d="${PLAY}"/></svg></button>
