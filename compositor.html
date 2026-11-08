@@ -19,8 +19,8 @@
     <div id="obra"></div>
     <div><h2 class="tag">Què escoltes?</h2><div id="pistes"></div></div>
     <div><h2 class="tag">Qui era?</h2><p id="qui"></p></div>
-    <div class="sabies"><div class="bafarada"><h2 class="tag">Sabies que…?</h2><p id="curiositat"></p></div><img class="pauta" src="art/pauta-directora.png" alt="La Pauta"></div>
-    <p class="credits"><span id="credits"></span> · © Javier Mateo García per a Aulatech · La Pauta</p>
+    <div class="sabies"><div class="bafarada"><h2 class="tag">Sabies que…?</h2><p id="curiositat"></p><p class="canal">Vols més curiositats? <a class="boto-yt" href="https://www.youtube.com/@lapautamusica" target="_blank" rel="noopener"><svg viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="5.5" fill="#fff"/><path d="M11 5.5v9l8-4.5z" fill="#e01e1e"/></svg>Entra al meu canal</a></p></div><a class="pauta-canal" href="https://www.youtube.com/@lapautamusica" target="_blank" rel="noopener" aria-label="Canal de La Pauta a YouTube"><img class="pauta" src="art/pauta-directora.png" alt=""></a></div>
+    <p class="credits"><span id="credits"></span>© Javier Mateo García per a Aulatech · La Pauta</p>
   </section>
 </main>
 <audio id="audio" preload="none"></audio>
@@ -96,7 +96,7 @@ function encaixa() {
     while (ct.scrollHeight > ct.clientHeight + 1 && f > 8) ct.style.fontSize = `${f -= .5}px`;
   });
   document.body.style.fontSize = ""; let mida = parseFloat(getComputedStyle(document.body).fontSize);
-  while (info.scrollHeight > info.clientHeight + 1 && mida > 9) document.body.style.fontSize = `${mida -= .5}px`;
+  while (info.scrollHeight > info.clientHeight + 1 && mida > 11) document.body.style.fontSize = `${mida -= .5}px`;
 }
 document.fonts.ready.then(encaixa);
 $("retrat").addEventListener("load", encaixa);

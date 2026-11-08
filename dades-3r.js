@@ -58,7 +58,7 @@ const TERCER = {
     trets: [["Impressionisme", "colors i atmosferes"], ["Escales noves", "pentatònica i tons sencers"],
             ["Acords lliures", "harmonies que suren"], ["Timbre", "el color de cada instrument"]] } },
   // Pack 2: la resta de compositors de la web de 1r. retrat: "imaginari" si no se'n conserva cap de fiable.
-  guido: { poster: { gran: "Guido", petit: "d’Arezzo", retrat: "imaginari", ganxo: "Va posar nom a les notes!",
+  guido: { poster: { gran: "Guido", petit: "d’Arezzo", sep: 4, retrat: "imaginari", ganxo: "Va posar nom a les notes!",
     trets: [["Notes", "ut, re, mi, fa, sol, la"], ["Línies", "l'origen del pentagrama"],
             ["Mestre", "ensenyava a cantar més ràpid"], ["Gregorià", "el cant dels monestirs"]] } },
   sibilla: { poster: { gran: "Sibil·la", petit: "Cant de la", retrat: "imaginari", obra: "Al jorn del judici", ganxo: "Cada Nit de Nadal, a Mallorca!",
