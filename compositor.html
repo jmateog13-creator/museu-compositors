@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Escolta 3r · La Pauta</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo+Narrow:wght@600;700&family=Atkinson+Hyperlegible:wght@400;700&family=Kalam:wght@700&family=Oswald:wght@700&family=Uncial+Antiqua&family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@700&family=Cinzel:wght@700&family=Abril+Fatface&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="skin.css">
+</head>
+<body>
+<main class="sala">
+  <section class="escena">
+    <a class="tornar" id="tornar">← Sala</a>
+    <header class="nom"><div class="pila" id="pila"></div><h1 id="cognom"></h1><div class="on" id="on"></div></header>
+    <div class="paret" id="paret"><div class="pals" id="esq"></div><img id="retrat" alt=""><div class="pals" id="dre"></div></div>
+  </section>
+  <section class="info" id="info">
+    <div id="obra"></div>
+    <div><h2 class="tag">Què escoltes?</h2><div id="pistes"></div></div>
+    <div><h2 class="tag">Qui era?</h2><p id="qui"></p></div>
+    <div class="sabies"><div class="bafarada"><h2 class="tag">Sabies que…?</h2><p id="curiositat"></p></div><img class="pauta" src="art/pauta-directora.png" alt="La Pauta"></div>
+    <p class="credits"><span id="credits"></span> · © Javier Mateo García per a Aulatech · La Pauta</p>
+  </section>
+</main>
+<audio id="audio" preload="none"></audio>
+<script src="dades.js"></script>
+<script src="dades-3r.js"></script>
+<script>
+// Informació i àudios: els de la web de 1r (dades.js). Post-its i títol: els del pòster (dades-3r.js).
+const WEB1 = "";
+const id = new URLSearchParams(location.search).get("c");
+const clau = id in COMPOSITORS ? id : "bach";
+const c = COMPOSITORS[clau], p = TERCER[clau].poster, $ = s => document.getElementById(s);
+const PLAY = "M7 4v16l13-8z", PAUSA = "M6 4h4v16H6zM14 4h4v16h-4z";
+
+document.documentElement.style.setProperty("--epoca", EPOQUES[c.epoca]);
+document.documentElement.style.setProperty("--fons", `url("${fons(c.epoca)}")`);
+document.documentElement.style.setProperty("--lletra", LLETRES[c.epoca]);
+document.title = `${c.nom} · Escolta 3r`;
+$("tornar").href = `epoca.html?e=${encodeURIComponent(c.epoca)}`;
+$("tornar").textContent = `← ${c.epoca}`;
+const parts = c.nom.split(" "), cognom = parts.pop();
+$("pila").textContent = p.petit ?? parts.join(" ");
+$("cognom").textContent = p.gran ?? cognom;
+$("cognom").style.fontFamily = $("pila").style.fontFamily = `${LLETRES[c.epoca]}, "Archivo Black", serif`;
+$("on").innerHTML = `${[].concat(c.pais).map(k => `<span class="bandera" style="background:${BANDERES[k]}"></span>`).join("")}<span>${c.dates} · ${c.lloc}</span>`;
+$("retrat").src = `art/museu-${clau}.png`; $("retrat").alt = `Retrat de ${c.nom}`;
+const postit = i => { const [t, d] = p.trets[i]; return `<div class="cartela c${i + 1}"><b><i>${i + 1}</i>${t}</b><span>${d}</span></div>`; };
+$("esq").innerHTML = postit(0) + postit(1); $("dre").innerHTML = postit(2) + postit(3);
+$("qui").textContent = c.qui;
+$("curiositat").textContent = c.curiositat;
+$("pistes").innerHTML = c.pistes.map(x => `<p class="pista"><b>${x.titol}:</b> ${x.text}</p>`).join("");
+
+if (!c.obres.length) {
+  $("obra").innerHTML = `<h2 class="tag">L'obra</h2><p class="aviat">Aviat!</p><p>Encara no hem trobat cap gravació lliure per escoltar aquí.</p>`;
+} else {
+  $("obra").innerHTML = `<h2 class="tag">L'obra</h2><p class="titol" id="titol"></p>
+    <div class="reproductor"><button class="play" id="play" aria-label="Escolta"><svg viewBox="0 0 24 24"><path id="icona" d="${PLAY}"/></svg></button>
+    <div class="barra"><div class="temps" id="temps" tabindex="0" role="slider" aria-label="Posició"><div class="omple" id="omple"></div></div>
+    <div class="rellotge" id="rellotge">0:00</div></div></div>
+    <p class="interpret" id="interpret"></p>
+    ${c.obres.length > 1 ? `<div class="altres" id="altres">${c.obres.map((o, i) => `<button data-i="${i}" aria-pressed="${!i}">${o.titol}</button>`).join("")}</div>`
+      : `<p class="interpret">Encara no hem trobat cap altra gravació lliure. Aviat n’hi haurà més!</p>`}`;
+  const a = $("audio"), mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+  const tria = i => {
+    const o = c.obres[i]; a.src = WEB1 + o.src;
+    $("titol").textContent = o.titol; $("interpret").innerHTML = `Toca: <b>${o.interpret}</b>`;
+    document.querySelectorAll("#altres button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.i === i));
+    $("omple").style.width = 0; $("rellotge").textContent = "0:00";
+  };
+  tria(0);
+  $("play").onclick = () => a.paused ? a.play() : a.pause();
+  document.querySelectorAll("#altres button").forEach(b => b.onclick = () => { tria(+b.dataset.i); a.play(); });
+  a.onplay = a.onpause = () => $("icona").setAttribute("d", a.paused ? PLAY : PAUSA);
+  a.ontimeupdate = () => {
+    $("omple").style.width = `${(a.currentTime / a.duration) * 100 || 0}%`;
+    $("rellotge").textContent = `${mmss(a.currentTime)} / ${a.duration ? mmss(a.duration) : "–"}`;
+  };
+  $("temps").onclick = e => { if (a.duration) a.currentTime = (e.offsetX / $("temps").clientWidth) * a.duration; };
+  $("temps").onkeydown = e => { if (e.key === "ArrowRight") a.currentTime += 10; if (e.key === "ArrowLeft") a.currentTime -= 10; };
+  const vist = {};  // llicències: un crèdit per intèrpret
+  $("credits").innerHTML = "Àudio (Wikimedia Commons): " + c.obres.filter(o => !vist[o.interpret.split(",")[0]] && (vist[o.interpret.split(",")[0]] = 1))
+    .map(o => `${o.interpret.split(",")[0]} · <a href="${o.font}" target="_blank" rel="noopener">${o.llicencia}</a>`).join(" · ");
+}
+
+// Tot en una pantalla: si res no hi cap, es redueix la lletra.
+function encaixa() {
+  const h = $("cognom"), caixa = h.parentElement, info = $("info");
+  h.style.fontSize = ""; let m = parseFloat(getComputedStyle(h).fontSize);
+  while (h.scrollWidth > caixa.clientWidth && m > 14) h.style.fontSize = `${m -= 1}px`;
+  document.querySelectorAll(".cartela").forEach(ct => {
+    ct.style.fontSize = ""; const b = ct.querySelector("b"); b.style.fontSize = "";
+    let g = 1; while (b.scrollWidth > b.clientWidth + 1 && g > .5) b.style.fontSize = `${(g -= .05) * .95}em`;  // paraula llarga: només ella s'encongeix
+    let f = parseFloat(getComputedStyle(ct).fontSize);
+    while (ct.scrollHeight > ct.clientHeight + 1 && f > 8) ct.style.fontSize = `${f -= .5}px`;
+  });
+  document.body.style.fontSize = ""; let mida = parseFloat(getComputedStyle(document.body).fontSize);
+  while (info.scrollHeight > info.clientHeight + 1 && mida > 9) document.body.style.fontSize = `${mida -= .5}px`;
+}
+document.fonts.ready.then(encaixa);
+$("retrat").addEventListener("load", encaixa);
+addEventListener("resize", encaixa);
+</script>
+</body>
+</html>
